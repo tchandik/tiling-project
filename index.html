@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDFSloper</title>
+    <link rel="stylesheet" href="index.css">
+
+    <script src="modal.js" defer></script>
+    <script src="background-image.js" defer></script>
+    <script src="nav-menu.js" defer></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hurricane&family=Lato:wght@300;400&family=Montserrat:wght@400;500&display=swap" rel="stylesheet">
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/brands.min.css" integrity="sha512-OivR4OdSsE1onDm/i3J3Hpsm5GmOVvr9r49K3jJ0dnsxVzZgaOJ5MfxEAxCyGrzWozL9uJGKz6un3A7L+redIQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+  
+    <title>MiSlope</title>
+
+</head>
+<body>
+
+<header class="primary-header flex">
+    <div>
+        <img src="/assets/MySlope-Logo-white-V5.png" alt="" class="logo">
+    </div>
+    <button class="mobile-nav-toggle" aria-expanded="false"></button>
+ 
+ 
+<nav>
+   <ul class="primary-navigation flex" id="primary-navigation" data-visible="false">
+       <li class="active">
+           <a href="#">home</a>
+       </li>
+       <li class="active">
+        <a href="#">Destination</a>
+    </li>
+    <li class="active">
+        <a href="#">Crew</a>
+    </li>
+    <li class="active">
+        <a href="#">Technology</a>
+    </li>
+   </ul>
+</nav>
+</header>
+
+    <div class="title-image-head">
+        <h1 class="title-head">MiSlope</h1>
+        <h2 id="sub-header">Full Circle Skirt</h2>
+        <img id="example-slope" src="assets/MiSlope-Circle-Skirt-Pattern-white.png"> 
+    </div>
+
+
+    <div class="overlay"></div>
+    <form id="form" novalidate autocomplete="off">
+        <div class="section-container unit-input">
+            <h3>Choose either imperial or metric as your unit of measurement</h3>
+                <div class="input-control cm" >
+                    <label for="cm">Centimeters</label>
+                    <input type="radio" id="cm" name="units" title="Centimetres">
+                    <div class="error"></div>
+                </div>
+
+                <div class="input-control in">
+                <label for="cm">Inches</label>
+                <input type="radio" id="in" name="units" title="Inches">
+                <div class="error"></div>
+                </div>
+
+            </div>
+
+            <div class="section-container">
+                <div class="input-control">
+                    <label for="waist">Waist<i class="fa-solid fa-ruler" id="open-button"></i></label>
+                    <input type="number" id="waist" name="required" title="Waist">
+                    <div class="animation-effect"></div>
+                    <div class="error"></div>
+              <!-- Start Modal here -->
+                    <div id="simpleModal" class="modal">
+                        <div class="modal-content">
+
+                            <div class="modal-header">
+                                <span class="closeBtn">&times;</span>
+                                <h2>Waist Measurement</h2>
+                            </div>
+                            <div class="modal-body">
+                                <!-- Modal Content -->
+                                &nbsp;
+                                <p id="p0">To take your waist measurement, stand up straight, exhale. Bend to one side, place your index finger where your waist creases. Return to a straight standing position with your finger remaining as a guide. Wrap a piece of string around the smallest part of your natural waist, tie the string moderately tight. The string will serve as a landmark for the vertical measurements to be taken subsequently. Next, to take the waist circumference measurement, wrap the tape measure around the smallest part of your natural waist. The tape should run parallel around the body and wrap just above your belly button. Ensure the tape measure remains <b>horizontal</b> and <b>parallel</b> to the floor.
+                                    <br> &nbsp;</p>
+                                    <p id="p0">Along with the string indicating the waist landmark, you will mark both Center Front and Center Back at Waist level with your washable/non-toxic marker. The belly button can be used as a guide to identify Center Front and the spine can be used as a guide to identify Center Back. 
+                                        </p> &nbsp;
+                                        
+                                        <!-- End Modal Content -->   
+
+                            </div>
+                            <div class="modal-footer">
+                                <h3>&copy; MiSlope</h3>
+                            </div>
+                           
+                        </div>
+                    </div>
+                  <!-- End Modal  -->
+                </div>
+
+                <div class="input-control">
+                    <label for="skirtLength">Skirt Length<i class="fa-solid fa-ruler" id="open-button"></i></label>
+                    <input type="number" id="skirtLength" name="required" title="Skirt Length"/>
+                    <div class="animation-effect"></div>
+                    <div class="error"></div>
+
+                    <!-- Start of Modal -->
+                    <div id="simpleModal" class="modal">
+                        <div class="modal-content">
+
+                            <div class="modal-header">
+                                <span class="closeBtn">&times;</span>
+                                <h2>Skirt Length</h2>
+                            </div>
+                            <div class="modal-body"> 
+                                 <!-- Modal Content -->
+                                &nbsp;
+                                <p id="p0">Ensure that the waist landmark is identified with string or marker. The skirt length will be measured from the waist down towards the desired length.
+                                    <br> &nbsp;</p>
+                                    <p id="p0">Run the tape measure down from Center Front waist to desired length, once satisfied with your skirt length, take down your measurement. </p> &nbsp;
+                                    
+    
+                                        <!-- End Modal Content -->   
+                            </div>
+                            <div class="modal-footer">
+                                <h3>&copy; MiSlope Measurements</h3>
+                            </div>
+                     <!-- End of Modal -->
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="input-control">
+                    <label for="backSkirtLength">Back Skirt Length<i class="fa-solid fa-ruler" id="open-button"></i></label>
+                    <input type="number" id="backSkirtLength" name="required" title="Back Skirt Length">
+                    <div class="animation-effect"></div>
+                    <div class="error"></div>
+                    <!-- Start Modal here -->
+                    <div id="simpleModal" class="modal">
+                        <div class="modal-content">
+
+                            <div class="modal-header">
+                                <span class="closeBtn">&times;</span>
+                                <h2>Back Skirt Length</h2>
+                            </div>
+                            <div class="modal-body">
+                                <!-- Modal Content -->
+                                 &nbsp;
+                                <p id="p0"> In order to accomodate the extra space taken up by the glutes, we add extra length to the back of the skirt.</p> &nbsp; 
+    
+                                    <p id="p0">Without adding extra length to the back panel of the skirt, if your model has particularly large glutes, the skirt may appear to be worn "backwards". Add slightly more length to the back skirt panel relative to the size of your model's glutes. </p> &nbsp;
+                                  
+
+                                        <!-- <-- End Modal Content   -->
+                            </div>
+                            <div class="modal-footer">
+                                <h3>&copy; MiSlope Measurements</h3>
+                            </div>
+                           
+                        </div>
+                    </div> 
+                  <!-- End Modal  -->
+                </div>
+                </div>
+                <div class="section-container">
+                <div class="input-control">
+                    <label for="sA">Seam Allowance<i class="fa-solid fa-ruler" id="open-button"></i></label>
+                    <input type="number" id="sA" name="required" title="sA">
+                    <div class="animation-effect"></div>
+                    <div class="error"></div>
+                             <!-- Start Modal here -->
+                             <div id="simpleModal" class="modal">
+                                <div class="modal-content">
+
+                                    <div class="modal-header">
+                                        <span class="closeBtn">&times;</span>
+                                        <h2>Seam Allowance</h2>
+                                    </div>
+                                    <div class="modal-body">
+                                        <!-- Modal Content -->
+                                &nbsp;
+                                <p id="p0">Seam allowance is the addition of space between the seam line and the fabric edge to provide room for sewing two or more pieces of fabric together.  When adding seam allowance, please ensure to use decimal points rather than fractions. 
+                                </p> &nbsp;
+                                        <!-- End Modal Content -->   
+                                    </div>
+                                    <div class="modal-footer">
+                                        <h3>&copy; MiSlope Measurements</h3>
+                                    </div>
+                                   
+                                </div>
+                            </div>
+                          <!-- End Modal  -->
+                </div>
+            
+
+                <div class="input-control">
+                    <label for="saHem">Seam Allowance at Hem<i class="fa-solid fa-ruler" id="open-button"></i></label>
+                    <input type="number" id="saHem" name="required" title="Seam Allowance at Hem">
+                    <div class="animation-effect"></div>
+                    <div class="error"></div>
+                             <!-- Start Modal here -->
+                             <div id="simpleModal" class="modal">
+                                <div class="modal-content">
+
+                                    <div class="modal-header">
+                                        <span class="closeBtn">&times;</span>
+                                        <h2>Seam Allowance at Hem</h2>
+                                    </div>
+                                    <div class="modal-body">
+                                          <!-- Modal Content -->
+                                &nbsp;
+                                <p id="p0">The hem is the bottom edge of the skirt. In order to accommodate different hem options, we have provided additional customization for you to add seam allowance to the hem that differs from the seam allowance at the waistline and side seams.  </p> &nbsp; 
+                                
+                                        <!-- End Modal Content -->   
+                                    </div>
+                                    <div class="modal-footer">
+                                        <h3>&copy; MiSlope Measurements</h3>
+                                    </div>
+                                   
+                                </div>
+                            </div>
+                          <!-- End Modal  -->
+                </div>
+
+
+    </div>
+    <div class="section-container">
+    
+        <div class="input-control">
+            <label for="rdcRatio"> Horizontal Negative Ease / Stretch Percentage<i class="fa-solid fa-ruler" id="open-button"></i></label>
+            <input type="number" id="rdcRatio" name="required" title="Negative Ease" placeholder="Example: 12%" >
+            <div class="animation-effect"></div>
+            <p id="errorMsg" data-error="hide">Please enter an amount between 0% - 40%</p>
+            <div class="error"></div>
+                     <!-- Start Modal here -->
+                     <div id="simpleModal" class="modal">
+                        <div class="modal-content">
+
+                            <div class="modal-header">
+                                <span class="closeBtn">&times;</span>
+                                <h2>Stretch Percentage</h2>
+                            </div>
+                            <div class="modal-body">
+
+                                <!-- Calculator -->
+
+                                <h2>Horizontal Negative Ease / Stretch % Calculator</h2>                       
+                                    <div class="calculator-container">
+                                    
+
+                                        <label for="Origin">Test Fabric Length at Rest (CM/Inch)</label>
+                                        <input type="text" id="origin" value="Example: 10" onfocus="this.value = ''" data-font="placeholder-input">
+
+
+                                        <label for="Stretch">Test Fabric Length When Stretched (CM/Inch)</label>
+                                        <input type="text" id="stretch" value="Example: 13" onfocus="this.value = ''" data-font="placeholder-input" >
+                                
+
+                                        <p id="result"></p>
+                                    
+                                        <div id="rdc-calc-button-container">
+                                            <p id="ease-faux-btn">Calculate Horizontal Negative Ease / Stretch %</p>
+                                        </div>
+                                    
+                                    </div>
+                                   
+                                    <!-- End of Calculator -->
+
+                                <p id="p1"><u><b>How to determine the stretch/reduction ratio of your fabric</b></u></p> &nbsp;
+                                
+                                <p id="p0">This explanation will focus on knits since we are designing a knit sloper. All fabrics consist of two elements: Fiber Content (Natural/Synthetic) and Construction (Knit). There are two categories of Knits: Weft Knits and Warp Knits. </p> &nbsp;
+                                
+                                <p id="p1"><u>Step One: Determine if your knit is a <b>weft</b> knit or a <b>warp</b> knit. </p></u> &nbsp;
+                                
+                                
+                                <p id="p0"><b>Weft Knits</b> examples: Jersey, Matte Jersey, Pointelle, Sweater knits, interlock, rib knit, fleece, knitted terry, velour and sweater knits. </p> &nbsp;
+                                
+                                <p id="p0"><b>Warp Knits </b> examples: Interlinings, linings, athletic wear, swimwear, underwear, lingerie and meshes.  </p> &nbsp;
+                                
+                                <p id="p1"><u>Step Two: Determine the Direction of Greatest Stretch</p></u> &nbsp;
+                                
+                                <p id="p0">When drafting with knits, we want to wrap the body using the greatest stretch direction of the fabric. You must locate the selvidge of your fabric and determine the direction of greatest stretch relative to the selvidge.</p></u> &nbsp; 
+                                
+                                <p id="p0">
+                                <ol>
+                                
+                                <li>For a Weft Knit, the direction of greatest stretch will be widthwise and perpendicular to the selvidge (crossgrain). </li>
+                                <li>For a Warp Knit, the direction of greatest stretch will be lengthwise and parallel to the selvidge (grainline)</li>
+                                </ol>
+                                 </p> &nbsp;
+                                
+                                <p id="p1"><u>Step Three: Determine Stretch Ratio Using Hand Elongation</p></u> &nbsp;
+                                
+                                
+                                <p id="p1"><u><b>Determining the Stretch Ratio for a Warp Knit</b></p></u> &nbsp;
+                                
+                                <p id="p0">
+                                <ol>
+                                
+                                <li> Locate the grainline (warp) of your fabric. The grain runs parallel to the selvedge of your fabric. </li>
+                                <li>Locate the crosswise grain (weft) of your fabric. The crosswise grain runs perpendicular to the selvedge of your fabric. </li>
+                                <li>Measure 5cm perpendicular to the selvidge of your fabric, along the weft/crossgrain of your fabric. </li>
+                                <li>Measure 20cm parallel to the selvidge of your fabric, along the warp/grain. </li>
+                                <li>Cut out the 20cm x 5cm rectangular strip of fabric according to steps 3 and 4. </li>
+                                <li>Place your first pin 5cm in along the 20cm side of the rectangle and place your second pin 10cm from the first pin (the distance between both pins should be 10cm).</li>
+                                <li>Place a ruler on your cutting table as a guide when measuring your fabric.</li>
+                                <li>Stretch the fabric comfortably. You want to avoid stretching your fabric to the max, stretch your fabric a comfortable amount for wearability. </li>
+                                <li>Measure the distance between the pins when the fabric is stretched (For example, the distance between the pins at rest is 10cm and when stretched is 14cm). </li>
+                                <li>Enter your fabric length at rest and your fabric length when stretched to calculate negative ease required.</li>
+                                <li>If you have the technical sheet for your fabric, you will use the greatest stretch percentage as the average for the fabric. </li>
+                                </ol>
+                                 </p> &nbsp;
+                                
+                                <p id="p1"><u><b>Determining the Stretch Ratio for a Weft Knit</b></p></u> &nbsp;
+                                
+                                <p id="p0">
+                                <ol>
+                                
+                                
+                                <li>Locate the grainline (warp) of your fabric. The grain runs parallel to the selvedge of your fabric. </li>
+                                <li>Locate the crosswise grain (weft) of your fabric. The crosswise grain runs perpendicular to the selvedge of your fabric. </li>
+                                <li>Measure 20cm perpendicular to the selvidge of your fabric, along the crossgrain. </li>
+                                <li>Measure 5cm parallel to the selvedge of your fabric, along the grain.</li>
+                                <li>Cut out the 20cm x 5cm rectangular strip of fabric according to steps 3 and 4. </li>
+                                <li>Place your first pin 5cm in along the 20cm side of the rectangle and place your second pin 10cm from the first pin (the distance between both pins should be 10cm). </li>
+                                <li>Place a ruler on your cutting table as a guide when measuring your fabric.</li>
+                                <li>Stretch the fabric comfortably. You want to avoid stretching your fabric to the max, stretch your fabric a comfortable amount for wearability. </li>
+                                <li>Measure the distance between the pins when the fabric is stretched (For example, the distance between the pins at rest is 10cm and when stretched is 14cm). </li>
+                                <li>Enter your fabric length at rest and your fabric length when stretched to calculate negative ease required.</li>
+                                <li>If you have the technical sheet for your fabric, you will use the greatest stretch percentage as the average for the fabric. </li>
+                                
+                                </ol>
+                                 </p> &nbsp;
+                                
+
+                            </div>
+                            <div class="modal-footer">
+                                <h3>&copy; MiSlope Measurements</h3>
+                            </div>
+                           
+                        </div>
+                    </div>
+                  <!-- End Modal  -->
+        </div> 
+    </div>
+
+    
+    <div class="downloadBtn"><a style="display: none;" id="pdf">Download Sloper</a></div>
+    <div id="button-container" class="section-container">
+        <input type="submit" value="Submit Measurements" />
+        
+        
+
+        </div>
+   
+  </form>
+
+  <footer>
+      <div class="footer">MiSlope 2022 &copy;</div>
+      <div class="social-media-footer">
+          <a href="#"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#"><i class="fa-brands fa-facebook"></i></i></a>
+          <a href="#"><i class="fa-brands fa-tiktok"></i></i></a>
+          <a href="#"><i class="fa-brands fa-youtube"></i></i></a>
+        
+      </div>
+      
+      
+  </footer>
+        <script src="bundle.js"></script>
+
+</body>
+</html>
