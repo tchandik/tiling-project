@@ -1,6 +1,7 @@
 
 // require dependencies
 const PDFDocument = require('pdfkit');
+const { PDFDocument: PDFLibDocument } = require('pdf-lib'); // For pdf-lib
 const blobStream = require('blob-stream');
 const { x, circle, y } = require('pdfkit');
 
@@ -198,11 +199,64 @@ function measurements(arr, conversion) {
     let seamAllowance = sizeArrCon[3]; 
     let saHem = sizeArrCon[4]; //Seam Allowance at hem
     let rdcRatio = (100-arr[5])/100;
+// -------------------------------------------------------------------------------------------------------------------------------------
+// TILING FUNCTIONS - START
+// -------------------------------------------------------------------------------------------------------------------------------------
 
-    
+// Function to tile the PDF
+async function tilePDF(arrayBuffer) {
+    const A4_WIDTH = 595.27; // 210mm in points
+    const A4_HEIGHT = 841.89; // 297mm in points
 
+    const originalPdf = await PDFLibDocument.load(arrayBuffer); // Use pdf-lib's PDFDocument
+    const outputPdf = await PDFLibDocument.create();
 
+    for (let pageIndex = 0; pageIndex < originalPdf.getPageCount(); pageIndex++) {
+        const originalPage = originalPdf.getPage(pageIndex);
+        const originalWidth = originalPage.getWidth();
+        const originalHeight = originalPage.getHeight();
 
+        const cols = Math.ceil(originalWidth / A4_WIDTH);
+        const rows = Math.ceil(originalHeight / A4_HEIGHT);
+
+        for (let row = 0; row < rows; row++) {
+            for (let col = 0; col < cols; col++) {
+                const x = col * A4_WIDTH;
+                const y = originalHeight - (row + 1) * A4_HEIGHT;
+                const cropWidth = Math.min(A4_WIDTH, originalWidth - x);
+                const cropHeight = Math.min(A4_HEIGHT, y + A4_HEIGHT);
+
+                const embeddedPage = await outputPdf.embedPage(originalPage, {
+                    left: x,
+                    bottom: y,
+                    right: x + cropWidth,
+                    top: y + cropHeight,
+                });
+
+                const scaleX = A4_WIDTH / cropWidth;
+                const scaleY = A4_HEIGHT / cropHeight;
+                const scale = Math.min(scaleX, scaleY);
+
+                const offsetX = (A4_WIDTH - cropWidth * scale) / 2;
+                const offsetY = (A4_HEIGHT - cropHeight * scale) / 2;
+
+                const a4Page = outputPdf.addPage([A4_WIDTH, A4_HEIGHT]);
+                a4Page.drawPage(embeddedPage, {
+                    x: offsetX,
+                    y: offsetY,
+                    width: cropWidth * scale,
+                    height: cropHeight * scale,
+                });
+            }
+        }
+    }
+
+    return await outputPdf.save(); // Return tiled PDF bytes
+}
+
+// -------------------------------------------------------------------------------------------------------------------------------------
+// TILING FUNCTIONS - END
+// -------------------------------------------------------------------------------------------------------------------------------------
 
 
 // -------------------------------------------------------------------------------------------------------------------------------------
@@ -669,83 +723,46 @@ curveInputDash(xCo[28], yCoBack[28],xCp[281], yCpBack[281], xCp[24], yCpBack[24]
 //  END OF DOC - GET BLOB WHEN YOU'RE DONE
 // -------------------------------------------------------------------------------------------------------------------------------------
  
+// Finalize the document
+doc.end(); // Finalize the document
 
-doc.end();
-
-let downloadButton = document.getElementById('pdf'); 
-downloadButton.addEventListener('click',download);
+let downloadButton = document.getElementById('pdf');
+downloadButton.addEventListener('click', download);
 
 const a = document.createElement("a");
 document.body.appendChild(a);
 a.style = "display: none";
 
 let blob;
+let blobUrl;
 
 function download() {
     if (!blob) return;
-    var url = window.URL.createObjectURL(blob);
-    a.href = url;
-    a.download = 'MiSlope Circle Skirt Pattern';
+    if (blobUrl) window.URL.revokeObjectURL(blobUrl);
+    blobUrl = window.URL.createObjectURL(blob);
+    a.href = blobUrl;
+    a.download = 'MiSlope Tiled Circle Skirt Pattern.pdf';
     a.click();
-    window.URL.revokeObjectURL(url);
-  };
+}
 
+stream.on('finish', async function () {
+    try {
+        blob = stream.toBlob("application/pdf");
+        const arrayBuffer = await blob.arrayBuffer();
+        const tiledPdfBytes = await tilePDF(arrayBuffer);
+        const tiledBlob = new Blob([tiledPdfBytes], { type: 'application/pdf' });
+        const url = URL.createObjectURL(tiledBlob);
+        const element = document.getElementById('pdf');
+        element.setAttribute('href', url);
+        console.log('Tiled PDF is ready for download:', url);
 
-
-stream.on('finish',  function() {    
-    // get a blob you can do whatever you like with
-    let allEl = form.elements;
-    let impMetric = form.elements.units; 
-    
-    blob = stream.toBlob("application/pdf");
-    
-    
-    const url = stream.toBlobURL('application/pdf');
-    const element = document.getElementById('pdf');
-    element.setAttribute('href', url);
-
-// -------------------------------------------------------------------------------------------------------------------------------------
-//  PREVENT FORM FROM SUBMITTING
-// -------------------------------------------------------------------------------------------------------------------------------------
- 
-    
-    
-    let isValid = []; //all require input fields being empty = 17 // when all required fields are filled out, length = 1
-    for (let l = 0; l < allEl.length; l++) {
-     
-    let elValue = allEl[l].value;
-     
-       if(elValue === '') {
-          isValid.push(allEl[l]); 
-           
-       } 
-
-       }
-    console.log(isValid.length);
-       let radioValid = []; // requierd fields empty = 2 // when all required fields are filled out, length = 1
-       for (let l = 0; l < impMetric.length; l++) {
-     
-         
-           if(!impMetric[l].checked) {
-              radioValid.push(impMetric[l]); 
-               
-           } 
-        
-           }
-      
-           console.log(isValid.length)
-       
-    if (radioValid.length && isValid.length == 0) {
-     console.log('form is valid');
-     element.style.display = 'block';
-    }  else {
-        console.log('form is not valid')
-        element.style.display = 'none'; //convert back to 'none' when finished
-    } ; 
-       
-
-   });
-
-}; 
-
+        // Form Validation
+        const isValid = Array.from(form.elements).filter(el => el.value === '').length === 0;
+        const radioValid = Array.from(form.elements.units).some(el => el.checked);
+        element.style.display = isValid && radioValid ? 'block' : 'none';
+    } catch (error) {
+        console.error('Error in processing PDF:', error);
+    }
+});
+}
  
