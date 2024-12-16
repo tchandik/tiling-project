@@ -722,47 +722,73 @@ curveInputDash(xCo[28], yCoBack[28],xCp[281], yCpBack[281], xCp[24], yCpBack[24]
 //-------------------------------------------------------------------------------------------------------------------------------------
 //  END OF DOC - GET BLOB WHEN YOU'RE DONE
 // -------------------------------------------------------------------------------------------------------------------------------------
- 
-// Finalize the document
+ // Finalize the document
 doc.end(); // Finalize the document
 
-let downloadButton = document.getElementById('pdf');
-downloadButton.addEventListener('click', download);
+// Buttons for untiled and tiled PDFs
+let untiledButton = document.getElementById('untiled-pdf');
+let tiledButton = document.getElementById('tiled-pdf');
 
+// Create invisible download anchor element
 const a = document.createElement("a");
 document.body.appendChild(a);
 a.style = "display: none";
 
 let blob;
 let blobUrl;
+let tiledBlobUrl;
 
-function download() {
+// Function to download the untiled PDF
+function downloadUntiled() {
     if (!blob) return;
     if (blobUrl) window.URL.revokeObjectURL(blobUrl);
     blobUrl = window.URL.createObjectURL(blob);
     a.href = blobUrl;
+    a.download = 'MiSlope Untiled Circle Skirt Pattern.pdf';
+    a.click();
+}
+
+// Function to download the tiled PDF
+function downloadTiled() {
+    if (!tiledBlobUrl) return;
+    a.href = tiledBlobUrl;
     a.download = 'MiSlope Tiled Circle Skirt Pattern.pdf';
     a.click();
 }
 
+// Stream 'finish' event
 stream.on('finish', async function () {
     try {
+        // Create blob for untiled PDF
         blob = stream.toBlob("application/pdf");
+
+        // Generate tiled PDF from untiled blob
         const arrayBuffer = await blob.arrayBuffer();
         const tiledPdfBytes = await tilePDF(arrayBuffer);
         const tiledBlob = new Blob([tiledPdfBytes], { type: 'application/pdf' });
-        const url = URL.createObjectURL(tiledBlob);
-        const element = document.getElementById('pdf');
-        element.setAttribute('href', url);
-        console.log('Tiled PDF is ready for download:', url);
+
+        // Create URLs for both PDFs
+        blobUrl = URL.createObjectURL(blob);
+        tiledBlobUrl = URL.createObjectURL(tiledBlob);
+
+        // Set hrefs and display buttons
+        untiledButton.setAttribute('href', blobUrl);
+        tiledButton.setAttribute('href', tiledBlobUrl);
+        untiledButton.style.display = 'block';
+        tiledButton.style.display = 'block';
+
+        console.log('PDFs are ready for download.');
 
         // Form Validation
         const isValid = Array.from(form.elements).filter(el => el.value === '').length === 0;
         const radioValid = Array.from(form.elements.units).some(el => el.checked);
-        element.style.display = isValid && radioValid ? 'block' : 'none';
+        untiledButton.style.display = isValid && radioValid ? 'block' : 'none';
+        tiledButton.style.display = isValid && radioValid ? 'block' : 'none';
     } catch (error) {
         console.error('Error in processing PDF:', error);
     }
 });
 }
- 
+// Add event listeners for download buttons
+untiledButton.addEventListener('click', downloadUntiled);
+tiledButton.addEventListener('click', downloadTiled);
