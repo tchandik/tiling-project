@@ -723,50 +723,77 @@ curveInputDash(xCo[28], yCoBack[28],xCp[281], yCpBack[281], xCp[24], yCpBack[24]
 //-------------------------------------------------------------------------------------------------------------------------------------
 //  END OF DOC - GET BLOB WHEN YOU'RE DONE
 // -------------------------------------------------------------------------------------------------------------------------------------
- 
-// Finalize the document
+ // Finalize the document
 doc.end(); // Finalize the document
 
-let downloadButton = document.getElementById('pdf');
-downloadButton.addEventListener('click', download);
+// Buttons for untiled and tiled PDFs
+let untiledButton = document.getElementById('untiled-pdf');
+let tiledButton = document.getElementById('tiled-pdf');
 
+// Create invisible download anchor element
 const a = document.createElement("a");
 document.body.appendChild(a);
 a.style = "display: none";
 
 let blob;
 let blobUrl;
+let tiledBlobUrl;
 
-function download() {
+// Function to download the untiled PDF
+function downloadUntiled() {
     if (!blob) return;
     if (blobUrl) window.URL.revokeObjectURL(blobUrl);
     blobUrl = window.URL.createObjectURL(blob);
     a.href = blobUrl;
+    a.download = 'MiSlope Untiled Circle Skirt Pattern.pdf';
+    a.click();
+}
+
+// Function to download the tiled PDF
+function downloadTiled() {
+    if (!tiledBlobUrl) return;
+    a.href = tiledBlobUrl;
     a.download = 'MiSlope Tiled Circle Skirt Pattern.pdf';
     a.click();
 }
 
+// Stream 'finish' event
 stream.on('finish', async function () {
     try {
+        // Create blob for untiled PDF
         blob = stream.toBlob("application/pdf");
+
+        // Generate tiled PDF from untiled blob
         const arrayBuffer = await blob.arrayBuffer();
         const tiledPdfBytes = await tilePDF(arrayBuffer);
         const tiledBlob = new Blob([tiledPdfBytes], { type: 'application/pdf' });
-        const url = URL.createObjectURL(tiledBlob);
-        const element = document.getElementById('pdf');
-        element.setAttribute('href', url);
-        console.log('Tiled PDF is ready for download:', url);
+
+        // Create URLs for both PDFs
+        blobUrl = URL.createObjectURL(blob);
+        tiledBlobUrl = URL.createObjectURL(tiledBlob);
+
+        // Set hrefs and display buttons
+        untiledButton.setAttribute('href', blobUrl);
+        tiledButton.setAttribute('href', tiledBlobUrl);
+        untiledButton.style.display = 'block';
+        tiledButton.style.display = 'block';
+
+        console.log('PDFs are ready for download.');
 
         // Form Validation
         const isValid = Array.from(form.elements).filter(el => el.value === '').length === 0;
         const radioValid = Array.from(form.elements.units).some(el => el.checked);
-        element.style.display = isValid && radioValid ? 'block' : 'none';
+        untiledButton.style.display = isValid && radioValid ? 'block' : 'none';
+        tiledButton.style.display = isValid && radioValid ? 'block' : 'none';
     } catch (error) {
         console.error('Error in processing PDF:', error);
     }
 });
 }
- 
+// Add event listeners for download buttons
+untiledButton.addEventListener('click', downloadUntiled);
+tiledButton.addEventListener('click', downloadTiled);
+
 },{"blob-stream":77,"pdf-lib":407,"pdfkit":439}],2:[function(require,module,exports){
 module.exports="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"
 

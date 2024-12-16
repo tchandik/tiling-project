@@ -789,9 +789,22 @@ input[type="submit"]:hover {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: 2em;
+  padding: 1em 2em;
+  border-radius: 1em;
+  text-transform: uppercase;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  font-size: 0.9em;
+  background-color: var(--dwnload-bckgrd-clr);
+  animation: dwnldbtn-animate 6s ease-in-out infinite alternate-reverse;
+  transition: transform 1s ease-in-out;
+  text-decoration: none; /* Ensure no underline on links */
+  color: white; /* Adjust to match your aesthetic */
 }
 
-#pdf {
+
+/* #pdf, #untiled-pdf, #tiled-pdf {
   margin-top: 2em;
   padding: 1em 2em;
   border-radius: 1em;
@@ -804,7 +817,7 @@ input[type="submit"]:hover {
   animation-direction: alternate-reverse;
   transition: transform 1s ease-in-out;
    
-}
+} */
 
 #pdf:hover {
   transform: scale(1.03);
